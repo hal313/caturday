@@ -1,6 +1,6 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
@@ -22,7 +22,6 @@
     "default_title": "caturday",
     "default_popup": "popup.html"
   },
-  "options_page": "options.html",
   "content_scripts": [
     {
       "matches": [

@@ -7,7 +7,7 @@ before_install:
   - npm install
   - bower install
 script:
-  - grunt default
+  - grunt build
 notifications:
   email:
     - john-github@rmdashrf.org
