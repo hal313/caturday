@@ -1,6 +1,32 @@
 body {
-    padding: 20px;
+    padding: 0 1em 1em 1em;
+    width: 400px;
 }
 h1 {
     text-align: center;
+    margin-top: 1em;
+}
+
+#main-container {
+    width: 100%;
+}
+
+.main-image-container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#main-image {
+    max-height: 450px;
+    width: 100%;
+    overflow: auto;
+}
+
+#button-container {
+    margin-top: 1em;
+}
+
+#button-next {
+    display: block;
+    margin: 0 auto;
 }
