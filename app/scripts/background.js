@@ -1,7 +1,9 @@
+/* global chrome */
+
 (function() {
     'use strict';
 
-    chrome.runtime.onInstalled.addListener(function (details) {
+    chrome.runtime.onInstalled.addListener(function (/*details*/) {
     });
 
 })();
