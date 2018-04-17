@@ -4,44 +4,36 @@
   <head>
     <meta charset="utf-8">
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-
+    <!-- // These style sheets are concatenated and minified during build -->
     <!-- build:css styles/main.css -->
-    <link href="styles/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-
   </head>
 
   <body>
 
+    <!-- The main container -->
     <div id="main-container">
-      <!--<h1>Caturday!</h1>-->
 
+      <!-- Holds the 'MOAR' button -->
       <div id="button-container">
         <button class="btn btn-primary" id="button-next">Moar Caturday!</button>
       </div>
 
+      <!-- This is where the kitty image will go -->
       <div class="main-image-container">
         <div id="main-image-placeholder"></div>
       </div>
 
     </div>
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
+    <!-- // These scripts are concatenated and minified during build -->
     <!-- build:js scripts/popup.js -->
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="scripts/popup.js"></script>
     <!-- endbuild -->
-
   </body>
 
 </html>

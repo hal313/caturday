@@ -1,24 +1,33 @@
 /* global $ */
 
 (function() {
-    'use strict';
+  'use strict';
 
-    $(document).ready(function() {
+  // Invoked when jQuery is ready
+  $(document).ready(function onReady() {
 
-        var populateImage = function() {
-            // A function to populate a cat image
-            var cacheBust = new Date().getTime();
-            $('#main-image-placeholder').empty();
-            $('#main-image-placeholder').append('<img id="main-image" src="http://thecatapi.com/api/images/get?format=src&type=gif&cachebust=' + cacheBust + '">');
-        };
+    /**
+     * Populates an image.
+     */
+    var populateImage = function populateImage() {
+        // The cache bust tag
+        var cacheBust = new Date().getTime();
+  
+        // Remove the existing elements
+        $('#main-image-placeholder').empty();
+  
+        // Add more elements
+        $('#main-image-placeholder').append(
+          '<img id="main-image" src="http://thecatapi.com/api/images/get?format=src&type=gif&cachebust=' +
+          cacheBust +
+          '">'
+        );
+      };
 
-        // The "next" button handler
-        $('#button-next').click(function() {
-            populateImage();
-        });
+    // The "next" button handler
+    $('#button-next').click(populateImage);
 
-        // Populate the image
-        populateImage();
-    });
-
+    // Populate the image (initial display)
+    populateImage();
+  });
 })();
