@@ -19,7 +19,7 @@ npm install
 ## Build
 A build will generate usable artifacts in the `dist/`. 
 ```
-npm build
+npm run build
 ```
 or
 ```
@@ -43,7 +43,7 @@ Clean the workspace, perform a build, bump the manifest version and create an ar
 Note that if the build fails, it is possible that `jshint` failed; check the contents of `jshint-report.txt` for any violations.
 
 ```
-npm release
+npm run release
 ```
 or
 ```
@@ -63,7 +63,7 @@ The grunt task expects these as options passed into the CLI (see the example bel
 
 The npm script is useful for CD situations; most CD servers allow for environment variable substitution which allows the npm task to function correctly while also not requiring sensitive information to be commited to git.
 ```
-npm publish
+npm run publish
 ```
 or
 ```
