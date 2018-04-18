@@ -208,8 +208,9 @@
       'jshint',
       // Clean the workspace
       'clean:dist',
-      // Bump the version
-      'version-bump',
+      // Do not automatically bump the version if the CI/CD server is publishing
+      // // Bump the version
+      //'version-bump',
       // Perform a build
       'build',
       // Build a deployable asset
