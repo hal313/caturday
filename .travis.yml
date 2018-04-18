@@ -6,6 +6,7 @@ before_install:
   - npm install
 script:
   - grunt build
+  - .travis/deploy-if-master.sh
 notifications:
   email:
     - john-github@rmdashrf.org

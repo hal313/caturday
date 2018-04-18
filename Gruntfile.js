@@ -13,6 +13,14 @@
     var config = {
       app: 'app',
       dist: 'dist'
+    },
+    /**
+     * Gets the path to the deployable package.
+     * 
+     * @return {String} the path to the deployable package.
+     */
+    getPackagePath = function getPackagePath() {
+      return 'package/caturday-' + grunt.file.readJSON('app/manifest.json').version + '.zip';
     };
 
     grunt.initConfig({
@@ -144,9 +152,7 @@
       compress: {
         dist: {
           options: {
-            archive: function() {
-              return 'package/caturday-' + grunt.file.readJSON('app/manifest.json').version + '.zip';
-            }
+            archive: getPackagePath
           },
           files: [{
             expand: true,
@@ -164,7 +170,7 @@
     ////////////////////////////////////////////////////////////////////////////
     //
     // 'debug'
-    // Constantly performs builds when deployable assets change    
+    // Constantly performs builds when deployable artifacts change    
     grunt.registerTask('debug', function () {
       grunt.task.run([
         'build',
@@ -178,7 +184,6 @@
     grunt.registerTask('build', [
       'useminPrepare',
       'cssmin',
-      'concat',
       'uglify',
       'copy',
       'usemin',
@@ -200,6 +205,43 @@
       // Build a deployable asset
       'compress'
     ]);
+
+    //
+    // 'publish'
+    // Publishes the artifact to the Chrome Web Store
+    grunt.registerTask('publish', ['release'], function publish() {
+      var done = this.async(),
+          packagePath = getPackagePath(),
+          fs = require('fs'),
+          deploy = require('chrome-extension-deploy');
+
+      // Publish the deployable artifact
+      deploy({
+        // Obtained by following the instructions here: 
+        // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin 
+        //
+        // These are passed in via the command line
+        // grunt publish --clientId=yourClientId --clientSecret=yourClientSecret --refreshToken=yourRefreshToken
+        clientId: grunt.option('clientId'),
+        clientSecret: grunt.option('clientSecret'),
+        refreshToken: grunt.option('refreshToken'),
+      
+        // The ID of the extension 
+        id: 'mcciciniemdaoljfnhgfahdhhkhefcfp',
+      
+        // A Buffer or string containing your zipped extension 
+        zip: fs.readFileSync(packagePath)
+      })
+        .then(function onThen() {
+          grunt.log.ok(['Deployed "' + packagePath + '"']);
+          done();
+        })
+        .catch(function onCatch(error) {
+          grunt.log.error('Error publishing "' + packagePath + '": ' + error.toString());
+          done(false);
+        });
+          
+    });
 
     //
     // '' or 'default'
