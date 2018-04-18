@@ -27,6 +27,15 @@
       // Project settings
       config: config,
 
+      // Version bump configuration
+      bump: {
+        options: {
+          commit: false,
+          createTag: false,
+          push: false
+        }
+      },
+
       // Watches files for changes and runs tasks based on the changed files
       watch: {
         js: {
@@ -139,7 +148,7 @@
       chromeManifest: {
         dist: {
           options: {
-            buildnumber: true,
+            buildnumber: 'both',
             indentSize: 2,
             background: {/*There is no background script to run*/}
           },
@@ -198,13 +207,18 @@
       'jshint',
       // Clean the workspace
       'clean:dist',
-      // Process the manifest
-      'chromeManifest:dist',
+      // Bump the version
+      'version-bump',
       // Perform a build
       'build',
       // Build a deployable asset
       'compress'
     ]);
+
+    //
+    // 'version-bump'
+    // Bumps the 'patch' version component in the manifest and the package.json file.
+    grunt.registerTask('version-bump', ['bump:patch', 'chromeManifest']);
 
     //
     // 'deploy'
