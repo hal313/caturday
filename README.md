@@ -1,7 +1,8 @@
 # [Caturday](https://github.com/hal313/caturday-chrome-extension)
 
 [![Build Status](http://img.shields.io/travis/hal313/caturday-chrome-extension/master.svg?style=flat-square)](https://travis-ci.org/hal313/caturday-chrome-extension)
-[![Dependency Status](https://david-dm.org/hal313/caturday-chrome-extension/dev-status.svg?style=flat-square)](https://david-dm.org/hal313/caturday-chrome-extension)
+[![Dependency Status](https://david-dm.org/hal313/caturday-chrome-extension.svg?style=flat-square)](https://david-dm.org/hal313/caturday-chrome-extension)[![DevDependency Status](https://david-dm.org/hal313/caturday-chrome-extension/dev-status.svg?style=flat-square)](https://david-dm.org/hal313/caturday-chrome-extension)
+
 
 > Chrome extension to display kitties!
 
