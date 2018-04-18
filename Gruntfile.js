@@ -207,9 +207,12 @@
     ]);
 
     //
-    // 'publish'
-    // Publishes the artifact to the Chrome Web Store
-    grunt.registerTask('publish', ['release'], function publish() {
+    // 'deploy'
+    // Deploy the artifact to the Chrome Web Store
+    grunt.registerTask('deploy', ['Deploys a publishable artifact to the Chrome Web Store'], function publish() {
+      // Be sure that the 'release' task was run
+      grunt.task.requires('release');
+      
       var done = this.async(),
           packagePath = getPackagePath(),
           fs = require('fs'),
@@ -242,6 +245,11 @@
         });
           
     });
+
+    //
+    // 'publish'
+    // Publishes the artifact to the Chrome Web Store
+    grunt.registerTask('publish', ['release', 'deploy']);
 
     //
     // '' or 'default'
