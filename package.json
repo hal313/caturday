@@ -1,6 +1,6 @@
 {
   "name": "caturday-chrome-extension",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "jquery": "^2.1.4"
