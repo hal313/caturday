@@ -20,7 +20,7 @@
      * @return {String} the path to the deployable package.
      */
     getPackagePath = function getPackagePath() {
-      return 'package/caturday-' + grunt.file.readJSON('app/manifest.json').version + '.zip';
+      return 'package/caturday-' + grunt.file.readJSON('package.json').version + '.zip';
     };
 
     grunt.initConfig({
@@ -30,6 +30,7 @@
       // Version bump configuration
       bump: {
         options: {
+          files: ['package.json', 'package-lock.json'],
           commit: false,
           createTag: false,
           push: false
@@ -207,8 +208,9 @@
       'jshint',
       // Clean the workspace
       'clean:dist',
-      // Bump the version
-      'version-bump',
+      // Do not automatically bump the version if the CI/CD server is publishing
+      // // Bump the version
+      //'version-bump',
       // Perform a build
       'build',
       // Build a deployable asset
@@ -230,34 +232,48 @@
       var done = this.async(),
           packagePath = getPackagePath(),
           fs = require('fs'),
-          deploy = require('chrome-extension-deploy');
+          deploy = require('chrome-extension-deploy'),
+          /**
+           * Invoked when a publish is succesful.
+           */
+          onPublishSuccess = function onPublishSuccess() {
+            grunt.log.ok(['Published "' + packagePath + '"']);
+            done();
+          },
+          onPublishFail = function onPublishFail(error) {
+            grunt.log.error('Error publishing "' + packagePath + '": ' + error.toString());
+            done(false);
+          };
 
-      // Publish the deployable artifact
-      deploy({
-        // Obtained by following the instructions here: 
-        // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin 
-        //
-        // These are passed in via the command line
-        // grunt publish --clientId=yourClientId --clientSecret=yourClientSecret --refreshToken=yourRefreshToken
-        clientId: grunt.option('clientId'),
-        clientSecret: grunt.option('clientSecret'),
-        refreshToken: grunt.option('refreshToken'),
-      
-        // The ID of the extension 
-        id: 'mcciciniemdaoljfnhgfahdhhkhefcfp',
-      
-        // A Buffer or string containing your zipped extension 
-        zip: fs.readFileSync(packagePath)
-      })
-        .then(function onThen() {
-          grunt.log.ok(['Deployed "' + packagePath + '"']);
-          done();
+      // Simulate publish success or fail
+      if (grunt.option('fake-publish-fail')) {
+        // Simulate a publish fail
+        onPublishFail('Fake publish fail');
+      } else if (grunt.option('fake-publish')) {
+        // Simulate a publish success
+        onPublishSuccess();
+      } else {
+        // Publish the deployable artifact
+        deploy({
+          // Obtained by following the instructions here: 
+          // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin 
+          //
+          // These are passed in via the command line
+          // grunt publish --clientId=yourClientId --clientSecret=yourClientSecret --refreshToken=yourRefreshToken
+          clientId: grunt.option('clientId'),
+          clientSecret: grunt.option('clientSecret'),
+          refreshToken: grunt.option('refreshToken'),
+
+          // The ID of the extension 
+          id: 'mcciciniemdaoljfnhgfahdhhkhefcfp',
+
+          // A Buffer or string containing your zipped extension 
+          zip: fs.readFileSync(packagePath)
         })
-        .catch(function onCatch(error) {
-          grunt.log.error('Error publishing "' + packagePath + '": ' + error.toString());
-          done(false);
-        });
-          
+          .then(onPublishSuccess)
+          .catch(onPublishFail);
+      }
+                
     });
 
     //
