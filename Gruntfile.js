@@ -20,7 +20,7 @@
      * @return {String} the path to the deployable package.
      */
     getPackagePath = function getPackagePath() {
-      return 'package/caturday-' + grunt.file.readJSON('app/manifest.json').version + '.zip';
+      return 'package/caturday-' + grunt.file.readJSON('package.json').version + '.zip';
     };
 
     grunt.initConfig({
