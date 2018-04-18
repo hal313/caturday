@@ -19,11 +19,20 @@ npm install
 ## Build
 A build will generate usable artifacts in the `dist/`. 
 ```
+npm build
+```
+or
+```
 grunt build
 ```
 
+
 ## Run Locally
 Running locally will constantly perform a `build` when any deployable assets change (images, CSS, JS or HTML files). This functionality works well when local extensions are installed ([Install Local Extensions](https://developer.chrome.com/extensions/getstarted#manifest)). There is no need to reload the extension every time a file is changed (for Browser Actions).
+```
+npm start
+```
+or
 ```
 grunt debug
 ```
@@ -34,8 +43,34 @@ Clean the workspace, perform a build, bump the manifest version and create an ar
 Note that if the build fails, it is possible that `jshint` failed; check the contents of `jshint-report.txt` for any violations.
 
 ```
+npm release
+```
+or
+```
 grunt release
 ```
+
+## Publish A Release
+A release will be published to the Chrome Web Store. Publishing for release requires some addional steps, required to enable the Chrome Store API and obtain API keys. [This](https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin) is a good primer and should provide all the information needed. You will end up with three pieces of information:
+- clientId
+- clientSecret
+- refreshToken
+
+The grunt task expects these as options passed into the CLI (see the example below). The npm script `npm publish` expects three environment variables:
+- CLIENT_ID
+- CLIENT_SECRET
+- REFRESH_TOKEN
+
+The npm script is useful for CD situations; most CD servers allow for environment variable substitution which allows the npm task to function correctly while also not requiring sensitive information to be commited to git.
+```
+npm publish
+```
+or
+```
+grunt publish --clientId=CLIENT_ID --clientSecret=CLIENT_SECRET --refreshToken=REFRESH_TOKEN
+```
+
+
 
 ## Licence
 This software is released under the [MIT Licence](https://raw.githubusercontent.com/hal313/caturday-chrome-extension/master/LICENSE).
@@ -48,5 +83,6 @@ This software is released under the [MIT Licence](https://raw.githubusercontent.
   - [Build](#build)
   - [Run Locally](#run-locally)
   - [Build For Release](#build-for-release)
+  - [Publish A Release](#publish-a-release)
   - [Licence](#licence)
   - [Table Of Contents](#table-of-contents)
