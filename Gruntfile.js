@@ -178,7 +178,6 @@
     grunt.registerTask('build', [
       'useminPrepare',
       'cssmin',
-      'concat',
       'uglify',
       'copy',
       'usemin',
