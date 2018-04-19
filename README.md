@@ -70,7 +70,63 @@ or
 grunt publish --clientId=CLIENT_ID --clientSecret=CLIENT_SECRET --refreshToken=REFRESH_TOKEN
 ```
 
+It may be useful to disable actual publishing to the Chrome Web Store, particularly when testing CI or CD systems. In order to simulate a succesful or failed publish, one of the following options may be passed to the `grunt publish` command:
+* `--fake-publish` This will simulate a successful publish
+* `--fake-publish-fail` This option will simulate a failed publish
 
+The option `--fake-publish-fail` will take precedence if both options are supplied on the command line.
+
+## Publish Procedure
+The preferred way to publish a new version is to prepare the build locally, push changes to `master` and let [TravisCI](https://travis-ci.org/hal313/caturday-chrome-extension/) build the extensions and publish to the Chrome Web Store. This promotes consistent and reproducable builds.
+
+In general, the steps (manual or automated) are:
+* Create a release branch
+* Bump the version
+* Build a deployable
+   * If using CI/CD, create a build (`grunt build`) in order to verify that the build succeeds
+   * If manually publishing, run `grunt publish`
+* Commit the version bump
+* Merge the release branch into `master`
+* Create a tag
+* Merge the release branch into `develop`
+* Push branches and tags
+   * If using CI/CD, the push to `master` will generally trigger a build on the server
+
+This script is suitable for locally preparing a build and push changes to
+a CI/CD server for publishing to the Chrome Web Store.
+
+```bash
+## Set the version to the *next* build; the *next* build is typically an
+## increment of the patch version found in package.json, but the source of
+## truth for the build will be the current published version in the Chrome
+## Web Store:
+## https://chrome.google.com/webstore/detail/caturday/mcciciniemdaoljfnhgfahdhhkhefcfp
+##
+export VERSION=x.y.z && \
+echo Create a release branch && \
+git checkout -b release/$VERSION && \
+echo Version bump && \
+grunt version-bump &&
+echo Commit the version bump && \
+git commit -a -m "Version bump" && \
+echo Build a release && \
+grunt release && \
+echo Checkout the "master" branch && \
+git checkout master && \
+echo Merge the release branch into the "master" branch && \
+git merge --no-ff release/$VERSION && \
+echo Tag the release && \
+git tag -a -m "Tagged for release" $VERSION && \
+echo Checkout the "develop" branch && \
+git checkout develop && \
+echo Merge the release branch into the "develop" branch && \
+git merge --no-ff release/$VERSION && \
+echo Delete the release branch && \
+git branch -d release/$VERSION && \
+echo Push the branches and tags && \
+git push origin --all && \
+git push origin --tags
+```
 
 ## Licence
 This software is released under the [MIT Licence](https://raw.githubusercontent.com/hal313/caturday-chrome-extension/master/LICENSE).
@@ -84,5 +140,6 @@ This software is released under the [MIT Licence](https://raw.githubusercontent.
   - [Run Locally](#run-locally)
   - [Build For Release](#build-for-release)
   - [Publish A Release](#publish-a-release)
+  - [Publish Procedure](#publish-procedure)
   - [Licence](#licence)
   - [Table Of Contents](#table-of-contents)
