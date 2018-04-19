@@ -8,8 +8,7 @@ before_install:
   - npm install -g grunt-cli
   - npm install
 script:
-  - grunt build
-  - .travis/deploy-if-master.sh
+  - .travis/build.sh
 notifications:
   email:
     - john-github@rmdashrf.org
