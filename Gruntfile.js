@@ -94,7 +94,7 @@
         html: [
           '<%= config.app %>/popup.html'
         ]
-      },
+      },      
 
       // Performs rewrites based on rev and the useminPrepare configuration
       usemin: {
@@ -193,6 +193,7 @@
     // Creates a static build, suitable for testing
     grunt.registerTask('build', [
       'useminPrepare',
+      'concat',
       'cssmin',
       'uglify',
       'copy',
