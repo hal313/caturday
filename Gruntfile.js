@@ -94,7 +94,7 @@
         html: [
           '<%= config.app %>/popup.html'
         ]
-      },      
+      },
 
       // Performs rewrites based on rev and the useminPrepare configuration
       usemin: {
