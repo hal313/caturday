@@ -65,7 +65,9 @@
             dot: true,
             src: [
               '<%= config.dist %>/*',
-              '!<%= config.dist %>/.git*'
+              '!<%= config.dist %>/.git*',
+              'package/*',
+              '.tmp/*'
             ]
           }]
         }
@@ -111,6 +113,7 @@
           options: {
             removeCommentsFromCDATA: true,
             collapseWhitespace: true,
+            removeComments: true,
             collapseBooleanAttributes: true,
             removeAttributeQuotes: true,
             removeRedundantAttributes: true,
