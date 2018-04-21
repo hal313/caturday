@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   module.exports = function (grunt) {
@@ -55,7 +55,6 @@
           files: ['<%= config.app %>/manifest.json'],
           tasks: ['build']
         }
-
       },
 
       // Empties folders to start fresh
