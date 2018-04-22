@@ -40,7 +40,7 @@ grunt debug
 ## Build For Release
 Clean the workspace, perform a build, bump the manifest version and create an archive suitable for uploading to the [Chrome Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard).
 
-Note that if the build fails, it is possible that `jshint` failed; check the contents of `jshint-report.txt` for any violations.
+Note that if the build fails, it is possible that `jshint` failed; check the output contents for any violations.
 
 ```
 npm run release
