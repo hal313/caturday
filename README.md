@@ -109,12 +109,12 @@ echo Version bump && \
 grunt version-bump && \
 echo Commit the version bump && \
 git commit -a -m "Version bump" && \
-echo Build a release && \
-grunt release && \
 echo Checkout the "master" branch && \
 git checkout master && \
 echo Merge the release branch into the "master" branch && \
 git merge --no-ff release/$VERSION && \
+echo Build a release && \
+grunt release && \
 echo Delete the release branch && \
 git branch -d release/$VERSION && \
 echo Tag the release && \
