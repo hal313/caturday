@@ -95,7 +95,11 @@
             jshintrc: true
           },
           files: {
-            src: ['<%= config.app %>/scripts/{,*/}*.js']
+            src: [
+              '<%= config.app %>/scripts/{,*/}*.js',
+              '!<%= config.app %>/scripts/jquery.js',
+              '!<%= config.app %>/scripts/bootstrap.js'
+            ]
           }
         },
         gruntfile: {
@@ -236,9 +240,6 @@
       'jshint:manifest',
       // Clean the workspace
       'clean',
-      // Do not automatically bump the version if the CI/CD server is publishing
-      // // Bump the version
-      //'version-bump',
       // Perform a build
       'build',
       // Build a deployable asset
