@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   module.exports = function (grunt) {
@@ -14,6 +14,8 @@
       app: 'app',
       dist: 'dist'
     },
+    // Options for JSON files (the same as jshint, but minus single quotes)
+    jshintJSONOptions,
     /**
      * Gets the path to the deployable package.
      * 
@@ -22,6 +24,10 @@
     getPackagePath = function getPackagePath() {
       return 'package/caturday-' + grunt.file.readJSON('package.json').version + '.zip';
     };
+
+    // Set jshintJSONOptions to be the same as .jshintrc, execpt with the quotmark to be "double" in order to support valid JSON
+    jshintJSONOptions = JSON.parse(require('fs').readFileSync('.jshintrc').toString());
+    jshintJSONOptions.quotmark = 'double';
 
     grunt.initConfig({
       // Project settings
@@ -41,7 +47,7 @@
       watch: {
         js: {
           files: ['<%= config.app %>/scripts/{,*/}*.js'],
-          tasks: ['jshint', 'build']
+          tasks: ['jshint:source', 'build']
         },
         html: {
           files: ['<%= config.app %>/{,*/}*.html'],
@@ -53,9 +59,8 @@
         },
         manifests: {
           files: ['<%= config.app %>/manifest.json'],
-          tasks: ['build']
+          tasks: ['jshint:manifest','build']
         }
-
       },
 
       // Empties folders to start fresh
@@ -76,14 +81,35 @@
       // Make sure code styles are up to par and there are no obvious mistakes
       jshint: {
         options: {
-          jshintrc: true,
-          reporterOutput: 'jshint-report.txt',
+          reporterOutput: '',
           reporter: require('jshint-stylish')
         },
-        all: [
-          'Gruntfile.js',
-          '<%= config.app %>/scripts/{,*/}*.js'
-        ]
+        manifest: {
+          options: jshintJSONOptions,
+          files: {
+            src: ['<%= config.app %>/manifest.json']
+          }
+        },
+        source: {
+          options: {
+            jshintrc: true
+          },
+          files: {
+            src: [
+              '<%= config.app %>/scripts/{,*/}*.js',
+              '!<%= config.app %>/scripts/jquery.js',
+              '!<%= config.app %>/scripts/bootstrap.js'
+            ]
+          }
+        },
+        gruntfile: {
+          options: {
+            jshintrc: true
+          },
+          files: {
+            src: ['Gruntfile.js']
+          }
+        }
       },
 
       // Reads HTML for usemin blocks to enable smart builds that automatically
@@ -209,12 +235,11 @@
     // Creates a build artifact, suitable for publishing to the Chrome Developer Dashboard
     grunt.registerTask('release', [
       // Check the code
-      'jshint',
+      'jshint:source',
+      'jshint:gruntfile',
+      'jshint:manifest',
       // Clean the workspace
-      'clean:dist',
-      // Do not automatically bump the version if the CI/CD server is publishing
-      // // Bump the version
-      //'version-bump',
+      'clean',
       // Perform a build
       'build',
       // Build a deployable asset
@@ -289,7 +314,9 @@
     // '' or 'default'
     // The default task; creates a build after validating code through jshint
     grunt.registerTask('default', [
-      'jshint',
+      'jshint:source',
+      'jshint:gruntfile',
+      'jshint:manifest',
       'build'
     ]);
   };

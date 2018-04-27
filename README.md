@@ -1,4 +1,4 @@
-# [Caturday](https://github.com/hal313/caturday-chrome-extension)
+# [Caturday Chrome Extension](https://github.com/hal313/caturday-chrome-extension)
 
 [![Build Status](http://img.shields.io/travis/hal313/caturday-chrome-extension/master.svg?style=flat-square)](https://travis-ci.org/hal313/caturday-chrome-extension)
 [![Dependency Status](https://david-dm.org/hal313/caturday-chrome-extension.svg?style=flat-square)](https://david-dm.org/hal313/caturday-chrome-extension)[![DevDependency Status](https://david-dm.org/hal313/caturday-chrome-extension/dev-status.svg?style=flat-square)](https://david-dm.org/hal313/caturday-chrome-extension)
@@ -40,7 +40,7 @@ grunt debug
 ## Build For Release
 Clean the workspace, perform a build, bump the manifest version and create an archive suitable for uploading to the [Chrome Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard).
 
-Note that if the build fails, it is possible that `jshint` failed; check the contents of `jshint-report.txt` for any violations.
+Note that if the build fails, it is possible that `jshint` failed; check the output contents for any violations.
 
 ```
 npm run release
@@ -106,23 +106,23 @@ export VERSION=x.y.z && \
 echo Create a release branch && \
 git checkout -b release/$VERSION && \
 echo Version bump && \
-grunt version-bump &&
+grunt version-bump && \
 echo Commit the version bump && \
 git commit -a -m "Version bump" && \
-echo Build a release && \
-grunt release && \
 echo Checkout the "master" branch && \
 git checkout master && \
 echo Merge the release branch into the "master" branch && \
 git merge --no-ff release/$VERSION && \
+echo Build a release && \
+grunt release && \
+echo Delete the release branch && \
+git branch -d release/$VERSION && \
 echo Tag the release && \
 git tag -a -m "Tagged for release" $VERSION && \
 echo Checkout the "develop" branch && \
 git checkout develop && \
-echo Merge the release branch into the "develop" branch && \
-git merge --no-ff release/$VERSION && \
-echo Delete the release branch && \
-git branch -d release/$VERSION && \
+echo Merge the "master" branch into the "develop" branch && \
+git merge --no-ff master && \
 echo Push the branches and tags && \
 git push origin --all && \
 git push origin --tags
