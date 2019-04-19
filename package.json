@@ -1,7 +1,7 @@
 {
   "name": "caturday-chrome-extension",
   "description": "Chrome extension for showing cats on demand",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "dependencies": {},
   "scripts": {
     "start": "grunt debug",
