@@ -18,7 +18,7 @@
     jshintJSONOptions,
     /**
      * Gets the path to the deployable package.
-     * 
+     *
      * @return {String} the path to the deployable package.
      */
     getPackagePath = function getPackagePath() {
@@ -47,7 +47,9 @@
       watch: {
         js: {
           files: ['<%= config.app %>/scripts/{,*/}*.js'],
-          tasks: ['jshint:source', 'build']
+          tasks: [
+            // 'jshint:source',
+            'build']
         },
         html: {
           files: ['<%= config.app %>/{,*/}*.html'],
@@ -99,6 +101,8 @@
               '<%= config.app %>/scripts/{,*/}*.js',
               '!<%= config.app %>/scripts/jquery.js',
               '!<%= config.app %>/scripts/bootstrap.js'
+              // ,'!node_modules/*.js'
+              // TODO: Add the imported packages (ui settings manager, settings manager, template manager, chrome extension settings manager, etc.)
             ]
           }
         },
@@ -121,6 +125,8 @@
         },
         html: [
           '<%= config.app %>/popup.html'
+          ,
+          '<%= config.app %>/options.html'
         ]
       },
 
@@ -209,7 +215,7 @@
     ////////////////////////////////////////////////////////////////////////////
     //
     // 'debug'
-    // Constantly performs builds when deployable artifacts change    
+    // Constantly performs builds when deployable artifacts change
     grunt.registerTask('debug', function () {
       grunt.task.run([
         'build',
@@ -235,15 +241,15 @@
     // Creates a build artifact, suitable for publishing to the Chrome Developer Dashboard
     grunt.registerTask('release', [
       // Check the code
-      'jshint:source',
-      'jshint:gruntfile',
-      'jshint:manifest',
+      // 'jshint:source',
+      // 'jshint:gruntfile',
+      // 'jshint:manifest',
       // Clean the workspace
       'clean',
       // Perform a build
       'build',
       // Build a deployable asset
-      'compress'
+      // 'compress'
     ]);
 
     //
@@ -257,7 +263,7 @@
     grunt.registerTask('deploy', ['Deploys a publishable artifact to the Chrome Web Store'], function publish() {
       // Be sure that the 'release' task was run
       grunt.task.requires('release');
-      
+
       var done = this.async(),
           packagePath = getPackagePath(),
           fs = require('fs'),
@@ -284,8 +290,8 @@
       } else {
         // Publish the deployable artifact
         deploy({
-          // Obtained by following the instructions here: 
-          // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin 
+          // Obtained by following the instructions here:
+          // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin
           //
           // These are passed in via the command line
           // grunt publish --clientId=yourClientId --clientSecret=yourClientSecret --refreshToken=yourRefreshToken
@@ -293,16 +299,16 @@
           clientSecret: grunt.option('clientSecret'),
           refreshToken: grunt.option('refreshToken'),
 
-          // The ID of the extension 
+          // The ID of the extension
           id: 'mcciciniemdaoljfnhgfahdhhkhefcfp',
 
-          // A Buffer or string containing your zipped extension 
+          // A Buffer or string containing your zipped extension
           zip: fs.readFileSync(packagePath)
         })
           .then(onPublishSuccess)
           .catch(onPublishFail);
       }
-                
+
     });
 
     //
@@ -314,9 +320,9 @@
     // '' or 'default'
     // The default task; creates a build after validating code through jshint
     grunt.registerTask('default', [
-      'jshint:source',
-      'jshint:gruntfile',
-      'jshint:manifest',
+      // 'jshint:source',
+      // 'jshint:gruntfile',
+      // 'jshint:manifest',
       'build'
     ]);
   };

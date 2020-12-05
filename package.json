@@ -2,7 +2,14 @@
   "name": "caturday-chrome-extension",
   "description": "Chrome extension for showing cats on demand",
   "version": "0.0.30",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.0",
+    "settings-manager": "^1.0.0",
+    "settings-manager-chrome-extension": "^1.0.4",
+    "template-manager": "^2.1.5",
+    "ui-settings-manager": "^2.0.3"
+  },
   "scripts": {
     "start": "grunt debug",
     "build": "grunt build",
@@ -31,6 +38,7 @@
     "grunt-usemin": "^2.1.1",
     "jshint-stylish": "^0.1.5",
     "load-grunt-tasks": "^3.5.2",
+    "popper.js": "^1.15.0",
     "time-grunt": "^0.3.2"
   },
   "license": "MIT",
