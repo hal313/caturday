@@ -16,18 +16,23 @@ Initial setup for any development environment.
 npm install -g grunt-cli
 npm install
 ```
+
 ## Build
 A build will generate usable artifacts in the `dist/`.
 ```bash
 grunt build
 ```
 
-
 ## Run Locally
 Running locally will constantly perform a `build` when any deployable assets change (images, CSS, JS or HTML files). This functionality works well when local extensions are installed ([Install Local Extensions](https://developer.chrome.com/extensions/getstarted#manifest)). There is no need to reload the extension every time a file is changed (for Browser Actions).
 ```bash
 npm start
 ```
+
+## Debugging
+Some IDE's (WebStorm and vscode, for example) will allow for a "live preview" of HTML files. For rapid development, it may be useful to use the live preview functionality on `dist/popup.html`. While useful, this approach has its limitations - particularly when validating behavior within the Chrome Extension API and restrictions.
+
+It is recommended to use the standard debugging apprach after initial development has completed. See [here](https://developer.chrome.com/docs/extensions/mv3/tut_debugging/) for more details. Be sure to select the `dist` directory when loading the unpacked extension.
 
 ## Build For Release
 Clean the workspace, perform a build, bump the manifest version and create an archive suitable for uploading to the [Chrome Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard).
@@ -90,6 +95,7 @@ This software is released under the [MIT Licence](https://raw.githubusercontent.
   - [Setup](#setup)
   - [Build](#build)
   - [Run Locally](#run-locally)
+  - [Debugging](#debugging)
   - [Build For Release](#build-for-release)
   - [Publish A Release](#publish-a-release)
   - [Publish Procedure](#publish-procedure)
