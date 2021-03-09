@@ -18,7 +18,7 @@
     jshintJSONOptions,
     /**
      * Gets the path to the deployable package.
-     * 
+     *
      * @return {String} the path to the deployable package.
      */
     getPackagePath = function getPackagePath() {
@@ -209,7 +209,7 @@
     ////////////////////////////////////////////////////////////////////////////
     //
     // 'debug'
-    // Constantly performs builds when deployable artifacts change    
+    // Constantly performs builds when deployable artifacts change
     grunt.registerTask('debug', function () {
       grunt.task.run([
         'build',
@@ -250,65 +250,6 @@
     // 'version-bump'
     // Bumps the 'patch' version component in the manifest and the package.json file.
     grunt.registerTask('version-bump', ['bump:patch', 'chromeManifest']);
-
-    //
-    // 'deploy'
-    // Deploy the artifact to the Chrome Web Store
-    grunt.registerTask('deploy', ['Deploys a publishable artifact to the Chrome Web Store'], function publish() {
-      // Be sure that the 'release' task was run
-      grunt.task.requires('release');
-      
-      var done = this.async(),
-          packagePath = getPackagePath(),
-          fs = require('fs'),
-          deploy = require('chrome-extension-deploy'),
-          /**
-           * Invoked when a publish is succesful.
-           */
-          onPublishSuccess = function onPublishSuccess() {
-            grunt.log.ok(['Published "' + packagePath + '"']);
-            done();
-          },
-          onPublishFail = function onPublishFail(error) {
-            grunt.log.error('Error publishing "' + packagePath + '": ' + error.toString());
-            done(false);
-          };
-
-      // Simulate publish success or fail
-      if (grunt.option('fake-publish-fail')) {
-        // Simulate a publish fail
-        onPublishFail('Fake publish fail');
-      } else if (grunt.option('fake-publish')) {
-        // Simulate a publish success
-        onPublishSuccess();
-      } else {
-        // Publish the deployable artifact
-        deploy({
-          // Obtained by following the instructions here: 
-          // https://developer.chrome.com/webstore/using_webstore_api#beforeyoubegin 
-          //
-          // These are passed in via the command line
-          // grunt publish --clientId=yourClientId --clientSecret=yourClientSecret --refreshToken=yourRefreshToken
-          clientId: grunt.option('clientId'),
-          clientSecret: grunt.option('clientSecret'),
-          refreshToken: grunt.option('refreshToken'),
-
-          // The ID of the extension 
-          id: 'mcciciniemdaoljfnhgfahdhhkhefcfp',
-
-          // A Buffer or string containing your zipped extension 
-          zip: fs.readFileSync(packagePath)
-        })
-          .then(onPublishSuccess)
-          .catch(onPublishFail);
-      }
-                
-    });
-
-    //
-    // 'publish'
-    // Publishes the artifact to the Chrome Web Store
-    grunt.registerTask('publish', ['release', 'deploy']);
 
     //
     // '' or 'default'
