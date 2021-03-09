@@ -8,7 +8,7 @@ before_install:
   - npm install -g grunt-cli
   - npm install
 script:
-  - npm release
+  - npm run release
 notifications:
   email:
     - john-github@rmdashrf.org
