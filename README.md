@@ -66,9 +66,7 @@ Publishes are currently manual, though releases could be configured with a CD se
 In general, the steps are inspired from git-flow:
 * Create a release branch
 * Bump the version
-* Build a deployable
-   * If using CI/CD, create a build (`npm run build`) in order to verify that the build succeeds
-   * If manually publishing, run `npm run build`
+* Build a deployable (it is suitable to `npm run build`)
 * Commit the version bump
 * Merge the release branch into `master`
 * Create a tag
